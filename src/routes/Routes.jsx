@@ -1,6 +1,6 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
-import { NotFount } from '../components/screens/not-found/NotFound'
 
+import NotFound from '../components/screens/not-found/NotFound.jsx'
 import { routes } from './routes.data'
 
 const Router = () => {
@@ -16,8 +16,7 @@ const Router = () => {
 						/>
 					)
 				})}
-
-				<Route path='*' element={<NotFount />} />
+				<Route path={'*'} element={<NotFound />} />
 			</Routes>
 		</BrowserRouter>
 	)
