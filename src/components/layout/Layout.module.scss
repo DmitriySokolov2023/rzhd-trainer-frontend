@@ -20,6 +20,8 @@
 .layout__header {
 	padding: 20px;
 	background-color: rgb(251, 155, 1);
+	display: flex;
+	justify-content: space-between;
 }
 .layout__content {
 	padding: 20px;

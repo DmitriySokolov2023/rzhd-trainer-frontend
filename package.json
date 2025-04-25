@@ -10,8 +10,15 @@
     "preview": "vite preview"
   },
   "dependencies": {
+    "@tanstack/react-query": "^5.74.4",
+    "axios": "^1.9.0",
+    "dotenv": "^16.5.0",
+    "install": "^0.13.0",
+    "js-cookie": "^3.0.5",
+    "npm": "^11.3.0",
     "react": "^19.0.0",
     "react-dom": "^19.0.0",
+    "react-hook-form": "^7.56.1",
     "react-router-dom": "^7.5.0"
   },
   "devDependencies": {

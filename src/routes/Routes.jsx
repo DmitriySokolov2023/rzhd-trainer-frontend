@@ -1,9 +1,12 @@
 import { BrowserRouter, Route, Routes } from 'react-router-dom'
 
 import NotFound from '../components/screens/not-found/NotFound.jsx'
+import { useAuth } from '../hooks/useAuth.js'
+import PrivateRoute from '../providers/PrivateRoute.jsx'
 import { routes } from './routes.data'
 
 const Router = () => {
+	const { isAuthenticated, isRole } = useAuth()
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -12,7 +15,18 @@ const Router = () => {
 						<Route
 							key={route.path}
 							path={route.path}
-							element={<route.component />}
+							element={
+								route.auth ? (
+									<PrivateRoute
+										children={<route.component />}
+										isAuthenticated={isAuthenticated}
+										isRole={isRole}
+										routeRole={route.requireAdmin}
+									/>
+								) : (
+									<route.component />
+								)
+							}
 						/>
 					)
 				})}
