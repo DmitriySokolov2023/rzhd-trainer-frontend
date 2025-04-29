@@ -10,6 +10,7 @@ class TaskUserService {
 		}
 	}
 	async getTaskById(id) {
+		console.log(id)
 		try {
 			const { data } = await $axios.get(`/task/${id}`)
 

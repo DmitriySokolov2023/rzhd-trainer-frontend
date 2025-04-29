@@ -1,0 +1,15 @@
+.editor {
+	min-height: 150px;
+	border: 1px solid #ccc;
+	padding: 10px;
+	font-family: monospace;
+	white-space: pre-wrap;
+	background-color: #fafafa;
+}
+
+.editor .key {
+	background-color: yellow;
+	text-decoration: underline;
+	padding: 2px 4px;
+	margin-right: 4px;
+}

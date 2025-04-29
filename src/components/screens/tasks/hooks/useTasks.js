@@ -6,6 +6,6 @@ export const useTasks = () => {
 		queryKey: ['get all tasks with status'],
 		queryFn: () => taskUserService.getAllTaskWithStatus(),
 	})
-	console.log(data)
+
 	return { data, isLoading, error }
 }
