@@ -6,7 +6,7 @@ import PrivateRoute from '../providers/PrivateRoute.jsx'
 import { routes } from './routes.data'
 
 const Router = () => {
-	const { isAuthenticated, isRole } = useAuth()
+	const { isAuthenticated } = useAuth()
 	return (
 		<BrowserRouter>
 			<Routes>
@@ -20,8 +20,7 @@ const Router = () => {
 									<PrivateRoute
 										children={<route.component />}
 										isAuthenticated={isAuthenticated}
-										isRole={isRole}
-										routeRole={route.requireAdmin}
+										requireAdmin={route.requireAdmin}
 									/>
 								) : (
 									<route.component />

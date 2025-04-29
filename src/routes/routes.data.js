@@ -17,7 +17,7 @@ export const routes = [
 		requireAdmin: false,
 	},
 	{
-		path: '/task',
+		path: '/task/:id',
 		component: Task,
 		auth: true,
 		requireAdmin: false,

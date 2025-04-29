@@ -6,11 +6,11 @@ export const AuthContext = createContext(null)
 
 const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get(TOKEN))
-	const [isRole, setIsRole] = useState('STUDENT')
+	const [role, setRole] = useState(Cookies.get('ROLE'))
 
 	return (
 		<AuthContext.Provider
-			value={{ isAuthenticated, setIsAuthenticated, isRole, setIsRole }}
+			value={{ isAuthenticated, setIsAuthenticated, role, setRole }}
 		>
 			{children}
 		</AuthContext.Provider>

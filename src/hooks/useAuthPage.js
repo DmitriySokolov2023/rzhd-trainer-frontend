@@ -7,7 +7,7 @@ import { useAuth } from './useAuth'
 
 export const useAuthPage = () => {
 	const [type, setType] = useState('login')
-	const { isAuthenticated, setIsAuthenticated } = useAuth()
+	const { isAuthenticated, setIsAuthenticated, role } = useAuth()
 
 	const navigate = useNavigate()
 	const {
@@ -28,7 +28,7 @@ export const useAuthPage = () => {
 	const { mutate, isLoading } = useMutation({
 		mutationKey: ['auth'],
 		mutationFn: ({ login, password }) =>
-			authService.main(login, password, 'login'),
+			authService.main(login, password, type),
 		onSuccess: () => {
 			setIsAuthenticated(true)
 			reset()
@@ -36,7 +36,7 @@ export const useAuthPage = () => {
 	})
 
 	const onSubmit = data => {
-		mutate(data, 'login')
+		mutate(data)
 	}
 
 	return { register, handleSubmit, reset, onSubmit }

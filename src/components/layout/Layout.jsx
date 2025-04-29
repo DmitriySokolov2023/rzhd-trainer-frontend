@@ -11,6 +11,7 @@ const Layout = ({ children }) => {
 
 	const logoutHandler = () => {
 		Cookies.remove(TOKEN)
+		Cookies.remove('ROLE')
 		setIsAuthenticated(false)
 		navigate('/auth')
 	}
