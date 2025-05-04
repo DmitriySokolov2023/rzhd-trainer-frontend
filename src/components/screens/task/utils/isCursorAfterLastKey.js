@@ -6,6 +6,10 @@ export function isCursorAfterLastKey(editor, keyClass) {
 
 	const { startContainer, startOffset } = range
 
+	if (startContainer != editor) {
+		range.setStart(editor, editor.childNodes.length)
+	}
+
 	const childNodes = Array.from(editor.childNodes)
 
 	if (childNodes.length < 2) return false
@@ -17,7 +21,6 @@ export function isCursorAfterLastKey(editor, keyClass) {
 
 	const isCursorAtEnd =
 		startContainer === editor && startOffset === editor.childNodes.length
-	console.log(startContainer)
 
 	return isKeySpan && isCursorAtEnd
 }

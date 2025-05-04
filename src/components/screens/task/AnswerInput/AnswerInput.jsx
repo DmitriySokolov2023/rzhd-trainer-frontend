@@ -1,5 +1,7 @@
-import React, { useEffect, useRef } from 'react'
+import React, { useEffect, useRef, useState } from 'react'
+import { convertToCyrillic, convertToLatin } from '../utils/convertToCyrillic'
 import { insertKeyToken } from '../utils/insertKeyToken'
+import { insertTextAtCursor } from '../utils/insertTextAtCursor'
 import { isCursorAfterLastKey } from '../utils/isCursorAfterLastKey'
 import styles from './AnswerInput.module.scss'
 
@@ -8,12 +10,17 @@ const KEY_LIST = ['A', 'B', 'C', 'D', 'E']
 export default function AnswerInput() {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
+	const [keyCount, setKeyCount] = useState(0)
+	const [isCapsLockActive, setIsCapsLockActive] = useState(true)
 
 	useEffect(() => {
 		const editor = editorRef.current
 
 		if (!editor) return
 		const handleKeyDown = e => {
+			if (e.key === 'CapsLock') {
+				setIsCapsLockActive(prev => !prev)
+			}
 			if (e.altKey) {
 				e.preventDefault()
 
@@ -27,7 +34,7 @@ export default function AnswerInput() {
 					const prevNode = lastNode.previousSibling
 
 					// Удаляем токен (span) и пробел (text node)
-					if (lastNode && lastNode.previousSibling) {
+					if (lastNode && prevNode) {
 						editor.removeChild(lastNode) // пробел
 						editor.removeChild(prevNode) // токен
 					}
@@ -35,13 +42,24 @@ export default function AnswerInput() {
 
 				const nextKey = KEY_LIST[keyIndexRef.current]
 				keyIndexRef.current = (keyIndexRef.current + 1) % KEY_LIST.length
-
 				insertKeyToken(nextKey, selection, styles)
 			}
-		}
 
-		const handleKeyUp = e => {
-			if (!e.altKey) setIsAltPressed(false)
+			if (e.key.length === 1 && !e.altKey) {
+				e.preventDefault()
+				const upperConvertChar = isCapsLockActive
+					? convertToLatin(e.key)
+					: convertToCyrillic(e.key)
+
+				if (/^[a-zA-Z]$/.test(upperConvertChar)) {
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = upperConvertChar
+					insertTextAtCursor(span) // Вставляем в конец
+				} else {
+					insertTextAtCursor(upperConvertChar)
+				}
+			}
 		}
 
 		editor.addEventListener('keydown', handleKeyDown)
@@ -52,11 +70,14 @@ export default function AnswerInput() {
 	})
 
 	return (
-		<div
-			className={styles.editor}
-			contentEditable
-			suppressContentEditableWarning
-			ref={editorRef}
-		></div>
+		<>
+			<div
+				className={styles.editor}
+				contentEditable
+				suppressContentEditableWarning
+				ref={editorRef}
+			></div>
+			<div>{isCapsLockActive ? 'ENG' : 'RUS'}</div>
+		</>
 	)
 }

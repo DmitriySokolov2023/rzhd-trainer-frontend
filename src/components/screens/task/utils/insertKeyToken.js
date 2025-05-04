@@ -9,7 +9,7 @@ export function insertKeyToken(key, selection, styles) {
 	span.contentEditable = 'false'
 	span.className = styles.key
 
-	const space = document.createTextNode('\u00A0')
+	const space = document.createTextNode('')
 
 	range.insertNode(span)
 	range.collapse(false)
