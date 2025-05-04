@@ -1,64 +1,74 @@
 const latinToCyrillicMap = {
-	a: 'ф',
-	b: 'и',
-	c: 'с',
-	d: 'в',
+	q: 'й',
+	w: 'ц',
 	e: 'у',
-	f: 'А',
+	r: 'к',
+	t: 'е',
+	y: 'н',
+	u: 'г',
+	i: 'ш',
+	o: 'щ',
+	p: 'з',
+	'[': 'х',
+	']': 'ъ',
+	a: 'ф',
+	s: 'ы',
+	d: 'в',
+	f: 'а',
 	g: 'п',
 	h: 'р',
-	i: 'ш',
 	j: 'о',
 	k: 'л',
 	l: 'д',
-	m: 'ь',
-	n: 'т',
-	o: 'щ',
-	p: 'з',
-	q: 'й',
-	r: 'к',
-	s: 'л',
-	t: 'м',
-	u: 'й',
-	v: 'ц',
-	w: 'ж',
-	x: 'х',
-	y: 'э',
+	';': 'ж',
+	"'": 'э',
 	z: 'я',
+	x: 'ч',
+	c: 'с',
+	v: 'м',
+	b: 'и',
+	n: 'т',
+	m: 'ь',
+	',': 'б',
+	'.': 'ю',
+	'/': '.',
 }
+
 const CyrillicToLatinMap = {
-	ф: 'a',
-	и: 'b',
-	с: 'c',
-	в: 'd',
+	й: 'q',
+	ц: 'w',
 	у: 'e',
+	к: 'r',
+	е: 't',
+	н: 'y',
+	г: 'u',
+	ш: 'i',
+	щ: 'o',
+	з: 'p',
+	ф: 'a',
+	ы: 's',
+	в: 'd',
 	а: 'f',
 	п: 'g',
 	р: 'h',
-	ш: 'i',
 	о: 'j',
 	л: 'k',
 	д: 'l',
-	ь: 'm',
-	т: 'n',
-	щ: 'o',
-	з: 'p',
-	й: 'q',
-	к: 'r',
-	л: 's',
-	м: 't',
-	й: 'u',
-	ц: 'v',
-	ж: 'w',
-	х: 'x',
-	э: 'y',
 	я: 'z',
+	ч: 'x',
+	с: 'c',
+	м: 'v',
+	и: 'b',
+	т: 'n',
+	ь: 'm',
 }
 export const convertToLatin = char => {
 	let newChar = null
 	if (latinToCyrillicMap[char.toLowerCase()]) {
 		newChar = char.toUpperCase()
-	} else newChar = CyrillicToLatinMap[char.toLowerCase()].toUpperCase()
+	} else if (CyrillicToLatinMap[char.toLowerCase()]) {
+		newChar = CyrillicToLatinMap[char.toLowerCase()].toUpperCase()
+	}
 	return newChar
 }
 
@@ -66,7 +76,9 @@ export const convertToCyrillic = char => {
 	let newChar = null
 	if (CyrillicToLatinMap[char.toLowerCase()]) {
 		newChar = char.toUpperCase()
-	} else newChar = latinToCyrillicMap[char.toLowerCase()].toUpperCase()
+	} else if (latinToCyrillicMap[char.toLowerCase()]) {
+		newChar = latinToCyrillicMap[char.toLowerCase()].toUpperCase()
+	} else newChar = char.toUpperCase()
 
 	return newChar
 }

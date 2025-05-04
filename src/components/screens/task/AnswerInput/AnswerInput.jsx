@@ -11,13 +11,14 @@ export default function AnswerInput() {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
 	const [keyCount, setKeyCount] = useState(0)
-	const [isCapsLockActive, setIsCapsLockActive] = useState(true)
+	const [isCapsLockActive, setIsCapsLockActive] = useState(false)
 
 	useEffect(() => {
 		const editor = editorRef.current
 
 		if (!editor) return
 		const handleKeyDown = e => {
+			console.log(e.code)
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
