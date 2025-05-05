@@ -14,7 +14,7 @@ const TasksList = () => {
 								{task.title}
 							</Link>
 							<div className={styles.task__status}>
-								{task.userTaskStatus[0].status ? 'V' : 'X'}
+								{task.userTaskStatus[0]?.status ? 'V' : 'X'}
 							</div>
 						</div>
 				  ))}

@@ -1,5 +1,8 @@
+import { useMutation } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
+import taskUserService from '../../../../services/taskUser.service'
 import { convertToCyrillic, convertToLatin } from '../utils/convertToCyrillic'
+import { getAnswerAsObject } from '../utils/getAnswerAsObject'
 import { insertKeyToken } from '../utils/insertKeyToken'
 import { insertTextAtCursor } from '../utils/insertTextAtCursor'
 import { isCursorAfterLastKey } from '../utils/isCursorAfterLastKey'
@@ -7,11 +10,16 @@ import styles from './AnswerInput.module.scss'
 
 const KEY_LIST = ['A', 'B', 'C', 'D', 'E']
 
-export default function AnswerInput() {
+export default function AnswerInput({ id }) {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
-	const [keyCount, setKeyCount] = useState(0)
 	const [isCapsLockActive, setIsCapsLockActive] = useState(false)
+
+	const { mutate, isLoading } = useMutation({
+		mutationKey: ['update task status', id],
+		mutationFn: ({ id, userAnswer }) =>
+			taskUserService.updateStatusTask(id, userAnswer),
+	})
 
 	useEffect(() => {
 		const editor = editorRef.current
@@ -30,35 +38,35 @@ export default function AnswerInput() {
 				if (e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') {
 					e.preventDefault()
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = '['
 					insertTextAtCursor(span)
 				}
 				if (e.key.toLowerCase() === 'ъ' || e.key.toLowerCase() === '}') {
 					e.preventDefault()
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = ']'
 					insertTextAtCursor(span)
 				}
 				if (e.key.toLowerCase() === 'б' || e.key.toLowerCase() === ',') {
 					e.preventDefault()
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = '<'
 					insertTextAtCursor(span)
 				}
 				if (e.key.toLowerCase() === 'ю' || e.key.toLowerCase() === '.') {
 					e.preventDefault()
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = '>'
 					insertTextAtCursor(span)
 				}
 				if (e.code === 'Backslash') {
 					e.preventDefault()
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = '/'
 					insertTextAtCursor(span)
 				}
@@ -112,6 +120,11 @@ export default function AnswerInput() {
 		}
 	})
 
+	const handleClick = () => {
+		const userAnswer = getAnswerAsObject(editorRef.current)
+		mutate({ id, userAnswer })
+	}
+
 	return (
 		<>
 			<div
@@ -121,6 +134,9 @@ export default function AnswerInput() {
 				ref={editorRef}
 			></div>
 			<div>{isCapsLockActive ? 'ENG' : 'RUS'}</div>
+			<button className={styles.task__btn} onClick={handleClick}>
+				Отправить ответ
+			</button>
 		</>
 	)
 }

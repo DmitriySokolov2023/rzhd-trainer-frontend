@@ -22,8 +22,7 @@ const Task = () => {
 					<div className={styles.task__title}>{data.title}</div>
 					<div className={styles.task__body}>{data.body}</div>
 					{data.imageUrl && <div className={styles.task__image}>Картинка</div>}
-					<AnswerInput />
-					<button className={styles.task__btn}>Отправить ответ</button>
+					<AnswerInput id={id} />
 				</div>
 			)}
 		</Layout>

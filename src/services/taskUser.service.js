@@ -10,7 +10,6 @@ class TaskUserService {
 		}
 	}
 	async getTaskById(id) {
-		console.log(id)
 		try {
 			const { data } = await $axios.get(`/task/${id}`)
 
@@ -24,6 +23,19 @@ class TaskUserService {
 		try {
 			const { data } = await $axios.get(`/status`)
 
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+
+	async updateStatusTask(id, userAnswer) {
+		console.log(userAnswer)
+		try {
+			const { data } = await $axios.put(`/status/${id}`, {
+				userAnswer,
+			})
+			console.log(data)
 			return data
 		} catch (error) {
 			throw new Error(error)
