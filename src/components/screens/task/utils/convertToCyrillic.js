@@ -31,7 +31,6 @@ const latinToCyrillicMap = {
 	m: 'ь',
 	',': 'б',
 	'.': 'ю',
-	'/': '.',
 }
 
 const CyrillicToLatinMap = {

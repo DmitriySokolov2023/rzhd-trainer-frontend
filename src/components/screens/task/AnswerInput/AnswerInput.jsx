@@ -18,19 +18,50 @@ export default function AnswerInput() {
 
 		if (!editor) return
 		const handleKeyDown = e => {
+			console.log(e.code)
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
-
-			if (
-				(e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') &&
-				e.shiftKey
-			) {
+			if (e.code.includes('Digit')) {
 				e.preventDefault()
-				const span = document.createElement('span')
-				span.className = styles.key
-				span.textContent = '['
-				insertTextAtCursor(span)
+				return
+			}
+			if (e.shiftKey) {
+				if (e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = '['
+					insertTextAtCursor(span)
+				}
+				if (e.key.toLowerCase() === 'ъ' || e.key.toLowerCase() === '}') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = ']'
+					insertTextAtCursor(span)
+				}
+				if (e.key.toLowerCase() === 'б' || e.key.toLowerCase() === ',') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = '<'
+					insertTextAtCursor(span)
+				}
+				if (e.key.toLowerCase() === 'ю' || e.key.toLowerCase() === '.') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = '>'
+					insertTextAtCursor(span)
+				}
+				if (e.code === 'Backslash') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.className = styles.key
+					span.textContent = '/'
+					insertTextAtCursor(span)
+				}
 			}
 
 			if (e.altKey) {
