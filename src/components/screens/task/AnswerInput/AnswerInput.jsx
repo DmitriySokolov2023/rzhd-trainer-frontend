@@ -18,10 +18,21 @@ export default function AnswerInput() {
 
 		if (!editor) return
 		const handleKeyDown = e => {
-			console.log(e.code)
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
+
+			if (
+				(e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') &&
+				e.shiftKey
+			) {
+				e.preventDefault()
+				const span = document.createElement('span')
+				span.className = styles.key
+				span.textContent = '['
+				insertTextAtCursor(span)
+			}
+
 			if (e.altKey) {
 				e.preventDefault()
 
@@ -46,7 +57,7 @@ export default function AnswerInput() {
 				insertKeyToken(nextKey, selection, styles)
 			}
 
-			if (e.key.length === 1 && !e.altKey) {
+			if (e.key.length === 1 && !e.altKey && !e.shiftKey) {
 				e.preventDefault()
 				const upperConvertChar = isCapsLockActive
 					? convertToLatin(e.key)
