@@ -1,7 +1,6 @@
-import { useMutation } from '@tanstack/react-query'
+import { useMutation, useQuery } from '@tanstack/react-query'
 import React, { useRef, useState } from 'react'
 import taskUserService from '../../../../services/taskUser.service'
-import { useTaskStatus } from '../../tasks/hooks/useTasks'
 import { getAnswerAsObject } from '../utils/getAnswerAsObject'
 import styles from './AnswerInput.module.scss'
 import { useCustomKeyboard } from './hooks/useCustomKeyboard'
@@ -10,16 +9,24 @@ export default function AnswerInput({ id }) {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
 	const [isCapsLockActive, setIsCapsLockActive] = useState(false)
-	const { data: statusData, isLoading: isStatusLoading } = useTaskStatus(id)
-	const dataStatus = statusData ? statusData[0].status : false
 
-	const { mutate, isLoading, data } = useMutation({
+	const {
+		mutate,
+		isLoading,
+		data: updateStatus,
+	} = useMutation({
 		mutationKey: ['update task status', id],
 		mutationFn: ({ id, userAnswer }) =>
 			taskUserService.updateStatusTask(id, userAnswer),
-		onSuccess: () => {
-			queryClient.invalidateQueries(['get all tasks with status', id])
+		onSuccess: data => {
+			queryClient.invalidateQueries(['task-status', id])
+			console.log(data)
 		},
+	})
+
+	const { data: getStatus } = useQuery({
+		queryKey: ['task-status', id],
+		queryFn: () => taskUserService.getTaskStatus(id),
 	})
 
 	useCustomKeyboard({
@@ -38,20 +45,28 @@ export default function AnswerInput({ id }) {
 	return (
 		<>
 			<div>
-				Оценка:
-				{dataStatus ? (
+				Оценка:{' '}
+				{updateStatus?.status ? (
+					<span
+						className={
+							updateStatus[0] !== 'Зачтено' ? styles.red : styles.green
+						}
+					>
+						{updateStatus[0] !== 'Зачтено'
+							? `Ошибка в ключе - ${updateStatus[0]}`
+							: updateStatus[0]}
+					</span>
+				) : getStatus?.status ? (
 					<span className={styles.green}>Зачтено</span>
-				) : data && data[0] ? (
-					<span className={styles.red}>{data[0]}</span>
 				) : (
 					'Задание выполняется'
 				)}
 			</div>
-			{!dataStatus && (
+			{!getStatus?.status && (
 				<>
 					<div
 						className={styles.editor}
-						contentEditable={!dataStatus}
+						contentEditable
 						suppressContentEditableWarning
 						ref={editorRef}
 					></div>

@@ -42,6 +42,7 @@ class TaskUserService {
 			const { data } = await $axios.put(`/status/${id}`, {
 				userAnswer,
 			})
+
 			return data
 		} catch (error) {
 			throw new Error(error)
