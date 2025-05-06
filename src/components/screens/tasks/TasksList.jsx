@@ -3,7 +3,6 @@ import styles from './Tasks.module.scss'
 import { useTasks } from './hooks/useTasks'
 const TasksList = () => {
 	const { data, isLoading } = useTasks()
-	console.log(data)
 	return (
 		<>
 			{isLoading

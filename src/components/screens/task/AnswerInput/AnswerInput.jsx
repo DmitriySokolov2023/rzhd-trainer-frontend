@@ -1,6 +1,7 @@
 import { useMutation } from '@tanstack/react-query'
 import React, { useEffect, useRef, useState } from 'react'
 import taskUserService from '../../../../services/taskUser.service'
+import { getTaskStatus } from '../../tasks/hooks/useTasks'
 import { convertToCyrillic, convertToLatin } from '../utils/convertToCyrillic'
 import { getAnswerAsObject } from '../utils/getAnswerAsObject'
 import { insertKeyToken } from '../utils/insertKeyToken'
@@ -14,8 +15,12 @@ export default function AnswerInput({ id }) {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
 	const [isCapsLockActive, setIsCapsLockActive] = useState(false)
+	const { dataStatus } = getTaskStatus(id)
+	console.log(id)
 
-	const { mutate, isLoading } = useMutation({
+	console.log(dataStatus?.status)
+
+	const { mutate, isLoading, data } = useMutation({
 		mutationKey: ['update task status', id],
 		mutationFn: ({ id, userAnswer }) =>
 			taskUserService.updateStatusTask(id, userAnswer),
@@ -26,7 +31,6 @@ export default function AnswerInput({ id }) {
 
 		if (!editor) return
 		const handleKeyDown = e => {
-			console.log(e.code)
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
@@ -123,20 +127,35 @@ export default function AnswerInput({ id }) {
 	const handleClick = () => {
 		const userAnswer = getAnswerAsObject(editorRef.current)
 		mutate({ id, userAnswer })
+		console.log(data)
 	}
 
 	return (
 		<>
-			<div
-				className={styles.editor}
-				contentEditable
-				suppressContentEditableWarning
-				ref={editorRef}
-			></div>
-			<div>{isCapsLockActive ? 'ENG' : 'RUS'}</div>
-			<button className={styles.task__btn} onClick={handleClick}>
-				Отправить ответ
-			</button>
+			<div>
+				Оценка:
+				{dataStatus ? (
+					<span className={styles.green}>Зачтено</span>
+				) : data && data[0] ? (
+					<span className={styles.red}>{data[0]}</span>
+				) : (
+					'Задание выполняется'
+				)}
+			</div>
+			{!dataStatus && (
+				<>
+					<div
+						className={styles.editor}
+						contentEditable={!dataStatus}
+						suppressContentEditableWarning
+						ref={editorRef}
+					></div>
+					<div>{isCapsLockActive ? 'ENG' : 'RUS'}</div>
+					<button className={styles.task__btn} onClick={handleClick}>
+						Отправить ответ
+					</button>
+				</>
+			)}
 		</>
 	)
 }

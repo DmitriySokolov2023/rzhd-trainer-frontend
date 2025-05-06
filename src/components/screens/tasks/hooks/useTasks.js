@@ -9,3 +9,14 @@ export const useTasks = () => {
 
 	return { data, isLoading, error }
 }
+
+export const getTaskStatus = id => {
+	const { data, isLoading, error } = useQuery({
+		queryKey: ['get all tasks with status', id],
+		queryFn: () => taskUserService.getTaskStatus(id),
+	})
+
+	const dataStatus = data
+
+	return { dataStatus }
+}

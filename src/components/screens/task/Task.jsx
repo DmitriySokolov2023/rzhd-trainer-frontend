@@ -13,8 +13,6 @@ const Task = () => {
 		enabled: !!id,
 	})
 
-	console.log(data)
-
 	return (
 		<Layout>
 			{data && (

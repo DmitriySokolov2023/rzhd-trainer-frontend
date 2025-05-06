@@ -22,6 +22,5 @@ export function getAnswerAsObject(container) {
 		}
 	}
 	container.childNodes.forEach(traverse)
-	console.log(result)
 	return result
 }
