@@ -1,4 +1,4 @@
-import { useMutation, useQuery } from '@tanstack/react-query'
+import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useRef, useState } from 'react'
 import taskUserService from '../../../../services/taskUser.service'
 import { getAnswerAsObject } from '../utils/getAnswerAsObject'
@@ -9,7 +9,7 @@ export default function AnswerInput({ id }) {
 	const editorRef = useRef(null)
 	const keyIndexRef = useRef(0)
 	const [isCapsLockActive, setIsCapsLockActive] = useState(false)
-
+	const queryClient = useQueryClient()
 	const {
 		mutate,
 		isLoading,
@@ -20,7 +20,6 @@ export default function AnswerInput({ id }) {
 			taskUserService.updateStatusTask(id, userAnswer),
 		onSuccess: data => {
 			queryClient.invalidateQueries(['task-status', id])
-			console.log(data)
 		},
 	})
 
@@ -35,6 +34,7 @@ export default function AnswerInput({ id }) {
 		styles,
 		isCapsLockActive,
 		setIsCapsLockActive,
+		updateStatus,
 	})
 
 	const handleClick = () => {
@@ -46,23 +46,23 @@ export default function AnswerInput({ id }) {
 		<>
 			<div>
 				Оценка:{' '}
-				{updateStatus?.status ? (
+				{updateStatus ? (
 					<span
 						className={
 							updateStatus[0] !== 'Зачтено' ? styles.red : styles.green
 						}
 					>
 						{updateStatus[0] !== 'Зачтено'
-							? `Ошибка в ключе - ${updateStatus[0]}`
+							? `Ошибка в ключе - ${updateStatus[0]} / или выбран не верно`
 							: updateStatus[0]}
 					</span>
-				) : getStatus?.status ? (
+				) : getStatus ? (
 					<span className={styles.green}>Зачтено</span>
 				) : (
 					'Задание выполняется'
 				)}
 			</div>
-			{!getStatus?.status && (
+			{!getStatus && (
 				<>
 					<div
 						className={styles.editor}

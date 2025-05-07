@@ -31,8 +31,7 @@ class TaskUserService {
 	async getTaskStatus(id) {
 		try {
 			const { data } = await $axios.get(`/status/${id}`)
-
-			return data
+			return data && data[0].status
 		} catch (error) {
 			throw new Error(error)
 		}
@@ -42,7 +41,7 @@ class TaskUserService {
 			const { data } = await $axios.put(`/status/${id}`, {
 				userAnswer,
 			})
-
+			// console.log(data)
 			return data
 		} catch (error) {
 			throw new Error(error)

@@ -16,6 +16,7 @@ export function useCustomKeyboard({
 	styles,
 	isCapsLockActive,
 	setIsCapsLockActive,
+	updateStatus,
 }) {
 	useEffect(() => {
 		const editor = editorRef.current
@@ -110,5 +111,5 @@ export function useCustomKeyboard({
 
 		editor.addEventListener('keydown', handleKeyDown)
 		return () => editor.removeEventListener('keydown', handleKeyDown)
-	}, [editorRef, keyIndexRef, styles, isCapsLockActive])
+	}, [editorRef, keyIndexRef, styles, isCapsLockActive, updateStatus])
 }
