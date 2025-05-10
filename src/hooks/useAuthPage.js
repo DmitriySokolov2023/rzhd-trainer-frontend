@@ -7,7 +7,7 @@ import { useAuth } from './useAuth'
 
 export const useAuthPage = () => {
 	const [type, setType] = useState('login')
-	const { isAuthenticated, setIsAuthenticated, setRole, role } = useAuth()
+	const { isAuthenticated, setIsAuthenticated, setRole, setUser } = useAuth()
 	const [err, setErr] = useState(null)
 
 	const navigate = useNavigate()
@@ -20,7 +20,6 @@ export const useAuthPage = () => {
 		mode: 'onChange',
 	})
 
-	console.log(errors)
 	useEffect(() => {
 		if (isAuthenticated) {
 			navigate('/')
@@ -37,6 +36,7 @@ export const useAuthPage = () => {
 		onSuccess: data => {
 			setRole(data.user.role)
 			setIsAuthenticated(true)
+			setUser(data.user.login)
 			setErr(null)
 			reset()
 		},

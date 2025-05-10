@@ -42,3 +42,11 @@
 	display: flex;
 	gap: 20px;
 }
+.layout__profile {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	p {
+		text-decoration: underline;
+	}
+}

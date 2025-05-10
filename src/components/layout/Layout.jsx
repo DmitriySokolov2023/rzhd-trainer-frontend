@@ -7,13 +7,14 @@ import styles from './Layout.module.scss'
 
 const Layout = ({ children }) => {
 	const { pathname } = useLocation()
-	const { setIsAuthenticated, setRole } = useAuth()
+	const { setIsAuthenticated, setRole, user } = useAuth()
 	const navigate = useNavigate()
 
 	const logoutHandler = () => {
 		Cookies.remove(TOKEN)
 		Cookies.remove('ROLE')
 		setIsAuthenticated(false)
+		setUser(null)
 		setRole(null)
 		navigate('/auth')
 	}
@@ -56,11 +57,14 @@ const Layout = ({ children }) => {
 							</NavLink>
 						</p>
 					</div>
-					<IoMdExit
-						onClick={() => logoutHandler()}
-						className='exit'
-						size={24}
-					/>
+					<div className={styles.layout__profile}>
+						{user && <p>{user}</p>}
+						<IoMdExit
+							onClick={() => logoutHandler()}
+							className='exit'
+							size={24}
+						/>
+					</div>
 				</header>
 			)}
 
