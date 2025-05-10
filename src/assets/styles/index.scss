@@ -1,4 +1,5 @@
 @use './variables';
+@import url(https://db.onlinewebfonts.com/c/23a02e8af5ef33a9b496dd524401550f?family=YS+Text+Regular+Regular);
 * {
 	margin: 0;
 	padding: 0;
@@ -45,15 +46,19 @@ body {
 	padding: 0;
 	margin: 0;
 	color: #000;
-	font-size: 18px;
+	font-size: 20px;
+
+	text-decoration: none;
+	text-transform: none;
+	text-shadow: none;
 	min-width: 320px;
 	position: relative;
 	line-height: 1.65;
-	font-family: Arial, 'Helvetica Neue', Helvetica, sans-serif;
+	font-family: 'YS Text Regular Regular';
 	overflow-x: hidden;
 	display: flex;
 	justify-content: center;
-	background-color: white;
+	background-color: #e9f2ff;
 }
 
 img {
@@ -108,4 +113,57 @@ input[type='number'] {
 	line-height: 130%;
 	text-align: center;
 	margin: 40px 0;
+}
+
+.input {
+	padding: 15px 10px;
+	border-radius: 15px;
+	border: 1px solid lightgray;
+	margin-bottom: 10px;
+	font-size: 16px;
+}
+.error-input {
+	color: #db1d1c;
+	font-size: 14px;
+}
+
+.red {
+	color: #db1d1c;
+}
+
+.link {
+	text-decoration: none;
+	color: rgba(0, 0, 0, 0.644);
+	padding: 10px 20px;
+	border-radius: 10px;
+	transition: 0.4s;
+}
+
+.link:hover {
+	background-color: #292933f6;
+	transition: 0.4s;
+	color: rgba(255, 255, 255, 0.541);
+}
+
+.link.active {
+	background-color: #292933f6;
+	color: white;
+}
+
+.btn-danger {
+	background-color: #db1d1c;
+	border: none;
+	color: white;
+	font-size: 16px;
+	padding: 10px 5px;
+	border-radius: 10px;
+}
+
+.exit {
+	color: black;
+	transition: 0.4s;
+}
+.exit:hover {
+	color: #db1d1c;
+	transition: 0.4s;
 }

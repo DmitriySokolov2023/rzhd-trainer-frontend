@@ -11,8 +11,8 @@ const PrivateRoute = ({ children, isAuthenticated, requireAdmin }) => {
 
 	if (requireAdmin && role != 'ADMIN') {
 		return <Navigate to='/' replace />
-	} else {
-		return children
 	}
+
+	return children
 }
 export default PrivateRoute

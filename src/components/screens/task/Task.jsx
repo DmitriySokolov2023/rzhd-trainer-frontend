@@ -29,7 +29,6 @@ const Task = () => {
 					<div className={styles.task__title}>{data.title}</div>
 					{path && <img src={path} />}
 					<div className={styles.task__body}>{data.body}</div>
-					{data.imageUrl && <div className={styles.task__image}>Картинка</div>}
 					<AnswerInput id={id} />
 				</div>
 			)}

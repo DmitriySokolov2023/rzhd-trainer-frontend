@@ -1,5 +1,14 @@
-import { $axios } from '../api'
+import { $axios, $axios_img } from '../api'
 class TaskUserService {
+	async addTask(formData) {
+		try {
+			const { data } = await $axios_img.post(`/task`, formData)
+
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
 	async getAllTask() {
 		try {
 			const { data } = await $axios.get(`/task`)
@@ -13,6 +22,15 @@ class TaskUserService {
 		try {
 			const { data } = await $axios.get(`/task/${id}`)
 
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+
+	async updateTask(id, formData) {
+		try {
+			const { data } = await $axios_img.put(`/task/${id}`, formData)
 			return data
 		} catch (error) {
 			throw new Error(error)
@@ -41,7 +59,14 @@ class TaskUserService {
 			const { data } = await $axios.put(`/status/${id}`, {
 				userAnswer,
 			})
-			// console.log(data)
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+	async deleteTask(id) {
+		try {
+			const { data } = await $axios.delete(`/task/${id}`)
 			return data
 		} catch (error) {
 			throw new Error(error)

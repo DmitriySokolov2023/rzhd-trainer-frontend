@@ -7,7 +7,8 @@ import { useAuth } from './useAuth'
 
 export const useAuthPage = () => {
 	const [type, setType] = useState('login')
-	const { isAuthenticated, setIsAuthenticated, role } = useAuth()
+	const { isAuthenticated, setIsAuthenticated, setRole, role } = useAuth()
+	const [err, setErr] = useState(null)
 
 	const navigate = useNavigate()
 	const {
@@ -19,6 +20,7 @@ export const useAuthPage = () => {
 		mode: 'onChange',
 	})
 
+	console.log(errors)
 	useEffect(() => {
 		if (isAuthenticated) {
 			navigate('/')
@@ -26,11 +28,16 @@ export const useAuthPage = () => {
 	}, [isAuthenticated])
 
 	const { mutate, isLoading } = useMutation({
+		onError: err => {
+			setErr('Неверный логин | пароль')
+		},
 		mutationKey: ['auth'],
 		mutationFn: ({ login, password }) =>
 			authService.main(login, password, type),
-		onSuccess: () => {
+		onSuccess: data => {
+			setRole(data.user.role)
 			setIsAuthenticated(true)
+			setErr(null)
 			reset()
 		},
 	})
@@ -39,5 +46,5 @@ export const useAuthPage = () => {
 		mutate(data)
 	}
 
-	return { register, handleSubmit, reset, onSubmit }
+	return { register, handleSubmit, reset, onSubmit, errors, err }
 }

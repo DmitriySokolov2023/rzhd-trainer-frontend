@@ -1,4 +1,5 @@
+import Tasks from '../tasks/Tasks'
 const Admin = () => {
-	return <div>Admin</div>
+	return <Tasks />
 }
 export default Admin

@@ -1,7 +1,6 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import React, { useRef, useState } from 'react'
 import taskUserService from '../../../../services/taskUser.service'
-import { getAnswerAsObject } from '../utils/getAnswerAsObject'
 import styles from './AnswerInput.module.scss'
 import { useCustomKeyboard } from './hooks/useCustomKeyboard'
 
@@ -30,17 +29,15 @@ export default function AnswerInput({ id }) {
 
 	useCustomKeyboard({
 		editorRef,
+
 		keyIndexRef,
 		styles,
 		isCapsLockActive,
 		setIsCapsLockActive,
 		updateStatus,
+		mutate,
+		id,
 	})
-
-	const handleClick = () => {
-		const userAnswer = getAnswerAsObject(editorRef.current)
-		mutate({ id, userAnswer })
-	}
 
 	return (
 		<>
@@ -71,9 +68,6 @@ export default function AnswerInput({ id }) {
 						ref={editorRef}
 					></div>
 					<div>{isCapsLockActive ? 'ENG' : 'RUS'}</div>
-					<button className={styles.task__btn} onClick={handleClick}>
-						Отправить ответ
-					</button>
 				</>
 			)}
 		</>

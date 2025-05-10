@@ -4,6 +4,7 @@ import {
 	convertToCyrillic,
 	convertToLatin,
 } from '../../utils/convertToCyrillic'
+import { getAnswerAsObject } from '../../utils/getAnswerAsObject'
 import { insertKeyToken } from '../../utils/insertKeyToken'
 import { insertTextAtCursor } from '../../utils/insertTextAtCursor'
 import { isCursorAfterLastKey } from '../../utils/isCursorAfterLastKey'
@@ -17,12 +18,27 @@ export function useCustomKeyboard({
 	isCapsLockActive,
 	setIsCapsLockActive,
 	updateStatus,
+	mutate,
+	id,
 }) {
 	useEffect(() => {
 		const editor = editorRef.current
 		if (!editor) return
+		editor.focus()
 
+		const enforceFocus = e => {
+			if (document.activeElement !== editor) {
+				e.stopPropagation()
+				e.preventDefault()
+				editor.focus()
+			}
+		}
 		const handleKeyDown = e => {
+			if (e.key === 'Enter') {
+				e.preventDefault()
+				const userAnswer = getAnswerAsObject(editor)
+				mutate({ id, userAnswer })
+			}
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
@@ -110,6 +126,10 @@ export function useCustomKeyboard({
 		}
 
 		editor.addEventListener('keydown', handleKeyDown)
-		return () => editor.removeEventListener('keydown', handleKeyDown)
+		document.addEventListener('mousedown', enforceFocus, true)
+		return () => {
+			editor.removeEventListener('keydown', handleKeyDown)
+			document.removeEventListener('mousedown', enforceFocus, true)
+		}
 	}, [editorRef, keyIndexRef, styles, isCapsLockActive, updateStatus])
 }
