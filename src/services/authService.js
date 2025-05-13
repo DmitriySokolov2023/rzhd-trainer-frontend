@@ -20,6 +20,18 @@ class AuthService {
 			throw new Error(error)
 		}
 	}
+	async addUser(login, password, type) {
+		try {
+			const { data } = await $axios.post(`/auth/${type}`, {
+				login,
+				password,
+			})
+
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
 }
 
 export default new AuthService()

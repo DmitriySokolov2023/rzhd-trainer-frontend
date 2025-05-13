@@ -3,6 +3,7 @@ import AdminTask from '../components/screens/admin/AdminTask/AdminTask'
 import Auth from '../components/screens/auth/Auth'
 import Task from '../components/screens/task/Task'
 import Tasks from '../components/screens/tasks/Tasks'
+import Users from '../components/screens/users/Users'
 
 export const routes = [
 	{
@@ -36,10 +37,16 @@ export const routes = [
 		auth: true,
 		requireAdmin: true,
 	},
-	,
 	{
 		path: '/admin/task/new',
 		component: AdminTask,
+		auth: true,
+		requireAdmin: true,
+	},
+	,
+	{
+		path: '/admin/users',
+		component: Users,
 		auth: true,
 		requireAdmin: true,
 	},
