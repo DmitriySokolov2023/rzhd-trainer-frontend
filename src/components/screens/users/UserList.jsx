@@ -11,8 +11,8 @@ const UserList = () => {
 	})
 	const { mutate: register } = useMutation({
 		mutationKey: ['getAllUser'],
-		mutationFn: ({ login, password }) =>
-			authService.addUser(login, password, 'register'),
+		mutationFn: ({ login, password, deadline }) =>
+			authService.addUser(login, password, deadline, 'register'),
 		onSuccess: () => {
 			queryClient.invalidateQueries(['getAllUser'])
 		},

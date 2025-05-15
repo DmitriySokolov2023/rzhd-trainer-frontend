@@ -20,11 +20,12 @@ class AuthService {
 			throw new Error(error)
 		}
 	}
-	async addUser(login, password, type) {
+	async addUser(login, password, deadline, type) {
 		try {
 			const { data } = await $axios.post(`/auth/${type}`, {
 				login,
 				password,
+				deadline,
 			})
 
 			return data

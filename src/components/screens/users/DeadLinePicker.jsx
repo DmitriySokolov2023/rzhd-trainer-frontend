@@ -1,17 +1,11 @@
-import { useState } from 'react'
+import { ru } from 'date-fns/locale'
 import DatePicker from 'react-datepicker'
 import 'react-datepicker/dist/react-datepicker.css'
 
-const DeadLinePicker = () => {
-	const [deadline, setDeadline] = useState(new Date())
-
-	const handleChange = date => {
-		setDeadline(date)
-		// onChange(date.toISOString())
-	}
-
+const DeadLinePicker = ({ deadline, handleChange }) => {
 	return (
-		<div>
+		<>
+			{deadline === null && <p style={{ color: 'red' }}>Укажите срок сдачи</p>}
 			<DatePicker
 				className='datepicker'
 				selected={deadline}
@@ -20,9 +14,9 @@ const DeadLinePicker = () => {
 				dateFormat='Pp'
 				timeFormat='HH:mm'
 				timeIntervals={15}
-				locale='ru'
+				locale={ru}
 			/>
-		</div>
+		</>
 	)
 }
 export default DeadLinePicker

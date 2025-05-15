@@ -9,7 +9,7 @@ class UserService {
 	async getAllUser() {
 		try {
 			const { data } = await $axios.get('/user')
-			console.log(data)
+
 			return data
 		} catch (error) {
 			throw new Error(error)
@@ -28,6 +28,23 @@ class UserService {
 		try {
 			const { data } = await $axios.delete(`/user/delete/${id}`)
 
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+	async updateDeadline(id, deadline) {
+		console.log(id, deadline)
+		try {
+			const { data } = await $axios.post(`/status/deadline/${id}`, { deadline })
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
+	async getDeadline(id) {
+		try {
+			const { data } = await $axios.get(`/status/deadline/${id}`)
 			return data
 		} catch (error) {
 			throw new Error(error)
