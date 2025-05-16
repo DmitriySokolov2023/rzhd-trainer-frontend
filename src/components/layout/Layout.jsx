@@ -10,7 +10,6 @@ const Layout = ({ children }) => {
 	const { pathname } = useLocation()
 	const { setIsAuthenticated, setRole, user, role } = useAuth()
 	const navigate = useNavigate()
-
 	const logoutHandler = () => {
 		Cookies.remove(TOKEN)
 		Cookies.remove('ROLE')
@@ -28,7 +27,7 @@ const Layout = ({ children }) => {
 					</div>
 					<Nav role={role} />
 					<div className={styles.layout__profile}>
-						{user && <p>{user}</p>}
+						{user && <p>{user.login}</p>}
 						<IoMdExit
 							onClick={() => logoutHandler()}
 							className='exit'

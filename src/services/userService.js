@@ -34,7 +34,6 @@ class UserService {
 		}
 	}
 	async updateDeadline(id, deadline) {
-		console.log(id, deadline)
 		try {
 			const { data } = await $axios.post(`/status/deadline/${id}`, { deadline })
 			return data

@@ -34,9 +34,9 @@ export const useAuthPage = () => {
 		mutationFn: ({ login, password }) =>
 			authService.main(login, password, type),
 		onSuccess: data => {
+			localStorage.setItem('user', JSON.stringify(data.user))
 			setRole(data.user.role)
 			setIsAuthenticated(true)
-			setUser(data.user.login)
 			setErr(null)
 			reset()
 		},

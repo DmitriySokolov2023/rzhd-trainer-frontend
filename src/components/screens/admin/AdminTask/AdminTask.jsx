@@ -54,7 +54,6 @@ const AdminTask = () => {
 			setValue('title', data?.title || '')
 			setValue('body', data?.body || '')
 			setValue('imageUrl', data?.imageUrl)
-			console.log(data)
 
 			if (data.imageUrl) {
 				setUploadedFile({ name: data.imageUrl })
