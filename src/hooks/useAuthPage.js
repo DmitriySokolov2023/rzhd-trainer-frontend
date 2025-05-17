@@ -36,6 +36,7 @@ export const useAuthPage = () => {
 		onSuccess: data => {
 			localStorage.setItem('user', JSON.stringify(data.user))
 			setRole(data.user.role)
+			setUser(data.user)
 			setIsAuthenticated(true)
 			setErr(null)
 			reset()

@@ -35,6 +35,14 @@ const Nav = ({ role }) => {
 				<>
 					<p>
 						<NavLink
+							to={'/admin/task/new'}
+							className={({ isActive }) => (isActive ? 'link active' : 'link')}
+						>
+							Создать задачи
+						</NavLink>
+					</p>
+					<p>
+						<NavLink
 							to={'/admin/users'}
 							className={({ isActive }) => (isActive ? 'link active' : 'link')}
 						>

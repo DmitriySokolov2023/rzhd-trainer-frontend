@@ -1,5 +1,5 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
-import React, { useRef, useState } from 'react'
+import { useRef, useState } from 'react'
 import taskUserService from '../../../../services/taskUser.service'
 import styles from './AnswerInput.module.scss'
 import { useCustomKeyboard } from './hooks/useCustomKeyboard'
@@ -41,23 +41,21 @@ export default function AnswerInput({ id }) {
 
 	return (
 		<>
-			<div>
-				Оценка:{' '}
-				{updateStatus ? (
-					<span
-						className={
-							updateStatus[0] !== 'Зачтено' ? styles.red : styles.green
-						}
-					>
-						{updateStatus[0] !== 'Зачтено'
-							? `Ошибка в ключе - ${updateStatus[0]} / или выбран не верно`
-							: updateStatus[0]}
-					</span>
-				) : getStatus ? (
-					<span className={styles.green}>Зачтено</span>
-				) : (
-					'Задание выполняется'
-				)}
+			<div className={styles.mark}>
+				<p>
+					Оценка:{' '}
+					{updateStatus ? (
+						<span className={updateStatus[0] !== 'Зачтено' ? 'red' : 'green'}>
+							{updateStatus[0] !== 'Зачтено'
+								? `Ошибка в ключе - ${updateStatus[0]} / или выбран не верно`
+								: updateStatus[0]}
+						</span>
+					) : getStatus ? (
+						<span className={'green'}>Зачтено</span>
+					) : (
+						<span className={'orange'}>Задание выполняется</span>
+					)}
+				</p>
 			</div>
 			{!getStatus && (
 				<>

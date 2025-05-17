@@ -1,5 +1,7 @@
 import { useMutation, useQueryClient } from '@tanstack/react-query'
 import { useContext } from 'react'
+import { BiTask, BiTaskX } from 'react-icons/bi'
+import { MdOutlinePlaylistRemove } from 'react-icons/md'
 import { Link } from 'react-router-dom'
 import { AuthContext } from '../../../providers/AuthProvider'
 import taskUserService from '../../../services/taskUser.service'
@@ -24,10 +26,10 @@ const TasksList = () => {
 		deleteTask(+id)
 	}
 	return (
-		<>
+		<div className={styles.tasks}>
 			{isLoading
 				? 'Loading'
-				: data?.map(task => (
+				: data?.map((task, index) => (
 						<div className={styles.tasks__task} key={task.id}>
 							<Link
 								to={
@@ -37,21 +39,27 @@ const TasksList = () => {
 								}
 								className={styles.task__title}
 							>
-								{task.title}
+								<p>
+									{index + 1 + '. '}
+									{task.title}
+								</p>
 							</Link>
 							<div className={styles.task__status}>
 								{role == 'ADMIN' ? (
-									<button onClick={() => handleDelete(task.id)}>Удалить</button>
+									<MdOutlinePlaylistRemove
+										onClick={() => handleDelete(task.id)}
+										className={`${styles.task__remove} red`}
+									/>
 								) : task.userTaskStatus[0]?.status ? (
-									'V'
+									<BiTask className='green' />
 								) : (
-									'X'
+									<BiTaskX className='red' />
 								)}
 							</div>
 						</div>
 				  ))}
 			{data?.length == 0 && <h2>Список задач пуст</h2>}
-		</>
+		</div>
 	)
 }
 export default TasksList

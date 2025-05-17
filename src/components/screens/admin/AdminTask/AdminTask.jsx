@@ -1,10 +1,13 @@
 import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useFieldArray, useForm } from 'react-hook-form'
+import { BiTaskX } from 'react-icons/bi'
+import { IoAddCircleOutline } from 'react-icons/io5'
 import { useNavigate, useParams } from 'react-router-dom'
 import taskUserService from '../../../../services/taskUser.service'
 import Layout from '../../../layout/Layout'
 import styles from './AdminTask.module.scss'
+
 const AdminTask = () => {
 	const { id } = useParams()
 	const isMode = Boolean(id)
@@ -129,10 +132,14 @@ const AdminTask = () => {
 								type='text'
 								defaultValue={data?.title || ''}
 								{...register('title', { required: 'Введите заголовок' })}
+								className='input-add'
+								placeholder='Заголовок задачи'
 							/>
 							<p>Задание</p>
 							<textarea
 								type='text'
+								className='input-area'
+								placeholder='Задание'
 								defaultValue={data?.body || ''}
 								{...register('body', { required: 'Введите задание' })}
 							/>
@@ -169,7 +176,13 @@ const AdminTask = () => {
 							</div>
 						</div>
 						<div className={styles.form__answer}>
-							<p>Ответ</p>
+							<div className={styles.form__plus}>
+								Ответ{' '}
+								<IoAddCircleOutline
+									onClick={handleAddKey}
+									style={{ cursor: 'pointer' }}
+								/>
+							</div>
 							{fields.map((field, index) => (
 								<div key={field.id}>
 									<input
@@ -177,21 +190,23 @@ const AdminTask = () => {
 										{...register(`correctAnswer.${index}.key`, {
 											required: true,
 										})}
+										className='input-key'
 									/>
 									<input
 										placeholder='Ответ'
+										className='input-answer'
 										{...register(`correctAnswer.${index}.value`, {
 											required: true,
 										})}
 									/>
-									<button type='button' onClick={() => remove(index)}>
-										-
-									</button>
+
+									<BiTaskX className='red' onClick={() => remove(index)} />
 								</div>
 							))}
-							<div onClick={handleAddKey}>+</div>
 						</div>
-						<button type='submit'>Редактировать</button>
+						<button type='submit' className='btn-success'>
+							{isMode ? 'Редактировать' : 'Создать'}
+						</button>
 					</form>
 				</div>
 			)}

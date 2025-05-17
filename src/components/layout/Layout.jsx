@@ -8,16 +8,19 @@ import Nav from './Nav'
 
 const Layout = ({ children }) => {
 	const { pathname } = useLocation()
-	const { setIsAuthenticated, setRole, user, role } = useAuth()
+	const { setIsAuthenticated, setRole, user, role, setUser } = useAuth()
 	const navigate = useNavigate()
 	const logoutHandler = () => {
+		localStorage.removeItem('user')
 		Cookies.remove(TOKEN)
 		Cookies.remove('ROLE')
 		setIsAuthenticated(false)
 		setUser(null)
 		setRole(null)
+
 		navigate('/auth')
 	}
+
 	return (
 		<div className={pathname != '/auth' ? styles.layout : styles.layout__auth}>
 			{pathname != '/auth' && (

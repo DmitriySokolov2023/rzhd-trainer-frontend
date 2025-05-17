@@ -7,6 +7,34 @@
 .tasks__task {
 	display: flex;
 	justify-content: space-between;
-	border-bottom: 1px solid black;
-	padding: 0 10px;
+	align-items: center;
+	gap: 40px;
+	padding: 10px 20px;
+	background-color: #e9f2ff;
+	border-radius: 20px;
+	transition: 0.5s;
+}
+.tasks__task:hover {
+	background-color: #d7e4f7;
+	transition: 0.5s;
+}
+
+.tasks__task a {
+	text-decoration: none;
+	color: rgb(0, 0, 0);
+}
+.task__title {
+	width: 80%;
+	font-size: 18px;
+}
+.tasks__list {
+}
+.tasks__deadline {
+	display: flex;
+	justify-content: end;
+	font-size: 18px;
+}
+.task__remove {
+	font-size: 24px;
+	cursor: pointer;
 }

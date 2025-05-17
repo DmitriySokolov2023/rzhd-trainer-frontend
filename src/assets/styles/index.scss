@@ -115,12 +115,30 @@ input[type='number'] {
 	margin: 40px 0;
 }
 
-.input {
+.input,
+.input-add,
+.input-area,
+.input-key,
+.input-answer {
 	padding: 15px 10px;
 	border-radius: 15px;
 	border: 1px solid lightgray;
 	margin-bottom: 10px;
 	font-size: 16px;
+}
+.input-add {
+	width: 50%;
+}
+.input-area {
+	width: 50%;
+	height: 200px;
+}
+.input-key {
+	width: 60px;
+}
+.input-answer {
+	width: 50%;
+	margin: 0 10px;
 }
 .error-input {
 	color: #db1d1c;
@@ -129,6 +147,13 @@ input[type='number'] {
 
 .red {
 	color: #db1d1c;
+}
+
+.green {
+	color: green;
+}
+.orange {
+	color: rgb(247, 168, 21);
 }
 
 .link {
@@ -149,7 +174,14 @@ input[type='number'] {
 	background-color: #292933f6;
 	color: white;
 }
-
+.btn-success {
+	background-color: rgba(0, 128, 0, 0.712);
+	border: none;
+	color: white;
+	font-size: 16px;
+	padding: 10px 20px;
+	border-radius: 10px;
+}
 .btn-danger {
 	background-color: #db1d1c;
 	border: none;

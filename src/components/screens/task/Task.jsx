@@ -26,9 +26,12 @@ const Task = () => {
 		<Layout>
 			{data && (
 				<div className={styles.task}>
-					<div className={styles.task__title}>{data.title}</div>
+					<div className={styles.task__title}>
+						<h4>{data.title}</h4>
+					</div>
 					{path && <img src={path} />}
-					<div className={styles.task__body}>{data.body}</div>
+					<h4>Задание:</h4>
+					<div className={styles.task__body}> {data.body}</div>
 					<AnswerInput id={id} />
 				</div>
 			)}

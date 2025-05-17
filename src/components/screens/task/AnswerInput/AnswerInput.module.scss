@@ -21,9 +21,7 @@
 	margin-right: 4px;
 }
 
-.green {
-	color: green;
-}
-.red {
-	color: red;
+.mark {
+	display: flex;
+	justify-content: end;
 }

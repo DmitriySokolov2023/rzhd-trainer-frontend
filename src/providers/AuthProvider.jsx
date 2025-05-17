@@ -7,7 +7,7 @@ export const AuthContext = createContext(null)
 const AuthProvider = ({ children }) => {
 	const [isAuthenticated, setIsAuthenticated] = useState(!!Cookies.get(TOKEN))
 	const [role, setRole] = useState(Cookies.get('ROLE'))
-	const [user, setUser] = useState()
+	const [user, setUser] = useState(null)
 	useEffect(() => {
 		setIsAuthenticated(!!Cookies.get(TOKEN))
 		setRole(Cookies.get('ROLE'))
