@@ -49,6 +49,16 @@ class UserService {
 			throw new Error(error)
 		}
 	}
+
+	async getKey(id) {
+		try {
+			const { data } = await $axios.get(`/status/key/${id}`)
+
+			return data
+		} catch (error) {
+			throw new Error(error)
+		}
+	}
 }
 
 export default new UserService()

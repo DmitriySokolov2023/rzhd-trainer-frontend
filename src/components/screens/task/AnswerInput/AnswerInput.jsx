@@ -47,7 +47,7 @@ export default function AnswerInput({ id }) {
 					{updateStatus ? (
 						<span className={updateStatus[0] !== 'Зачтено' ? 'red' : 'green'}>
 							{updateStatus[0] !== 'Зачтено'
-								? `Ошибка в ключе - ${updateStatus[0]} / или выбран не верно`
+								? `Ошибка в ключе - ${updateStatus[0]} / или выбран неверно`
 								: updateStatus[0]}
 						</span>
 					) : getStatus ? (

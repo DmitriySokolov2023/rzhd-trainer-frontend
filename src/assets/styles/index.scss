@@ -119,12 +119,18 @@ input[type='number'] {
 .input-add,
 .input-area,
 .input-key,
-.input-answer {
+.input-answer,
+.input-auth {
 	padding: 15px 10px;
 	border-radius: 15px;
 	border: 1px solid lightgray;
-	margin-bottom: 10px;
 	font-size: 16px;
+}
+.input-auth {
+	margin-bottom: 10px;
+}
+button {
+	align-self: center; // или flex-start, или baseline — в зависимости от нужного выравнивания
 }
 .input-add {
 	width: 50%;
@@ -155,6 +161,9 @@ input[type='number'] {
 .orange {
 	color: rgb(247, 168, 21);
 }
+button {
+	cursor: pointer;
+}
 
 .link {
 	text-decoration: none;
@@ -174,7 +183,9 @@ input[type='number'] {
 	background-color: #292933f6;
 	color: white;
 }
-.btn-success {
+.btn-success,
+.btn-deadline,
+.btn-danger {
 	background-color: rgba(0, 128, 0, 0.712);
 	border: none;
 	color: white;
@@ -184,11 +195,10 @@ input[type='number'] {
 }
 .btn-danger {
 	background-color: #db1d1c;
-	border: none;
-	color: white;
-	font-size: 16px;
-	padding: 10px 5px;
-	border-radius: 10px;
+}
+
+.btn-deadline {
+	background-color: #db8f1c;
 }
 
 .exit {
@@ -203,6 +213,5 @@ input[type='number'] {
 	padding: 15px 10px;
 	border-radius: 15px;
 	border: 1px solid lightgray;
-	margin-bottom: 10px;
 	font-size: 16px;
 }

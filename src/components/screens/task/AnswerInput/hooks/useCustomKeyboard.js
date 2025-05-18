@@ -1,5 +1,7 @@
 // hooks/useCustomKeyboard.ts
+import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
+import userService from '../../../../../services/userService'
 import {
 	convertToCyrillic,
 	convertToLatin,
@@ -8,9 +10,6 @@ import { getAnswerAsObject } from '../../utils/getAnswerAsObject'
 import { insertKeyToken } from '../../utils/insertKeyToken'
 import { insertTextAtCursor } from '../../utils/insertTextAtCursor'
 import { isCursorAfterLastKey } from '../../utils/isCursorAfterLastKey'
-
-const KEY_LIST = ['A', 'B', 'C', 'D', 'E']
-
 export function useCustomKeyboard({
 	editorRef,
 	keyIndexRef,
@@ -21,11 +20,16 @@ export function useCustomKeyboard({
 	mutate,
 	id,
 }) {
+	const { data: KEY_LIST } = useQuery({
+		queryKey: ['getKey'],
+		queryFn: () => userService.getKey(id),
+		enabled: !!id,
+	})
+
 	useEffect(() => {
 		const editor = editorRef.current
 		if (!editor) return
 		editor.focus()
-
 		const enforceFocus = e => {
 			if (document.activeElement !== editor) {
 				e.stopPropagation()
@@ -131,5 +135,5 @@ export function useCustomKeyboard({
 			editor.removeEventListener('keydown', handleKeyDown)
 			document.removeEventListener('mousedown', enforceFocus, true)
 		}
-	}, [editorRef, keyIndexRef, styles, isCapsLockActive, updateStatus])
+	}, [editorRef, keyIndexRef, styles, isCapsLockActive, updateStatus, KEY_LIST])
 }

@@ -17,7 +17,6 @@ const Layout = ({ children }) => {
 		setIsAuthenticated(false)
 		setUser(null)
 		setRole(null)
-
 		navigate('/auth')
 	}
 
@@ -25,7 +24,7 @@ const Layout = ({ children }) => {
 		<div className={pathname != '/auth' ? styles.layout : styles.layout__auth}>
 			{pathname != '/auth' && (
 				<header className={styles.layout__header}>
-					<div>
+					<div onClick={() => navigate('/')} style={{ cursor: 'pointer' }}>
 						Rzhd | <span className='red'>STUDY</span>
 					</div>
 					<Nav role={role} />

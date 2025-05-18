@@ -14,7 +14,7 @@ const Auth = () => {
 				<form onSubmit={handleSubmit(onSubmit)} className={styles.auth__form}>
 					<p className='error-input'>{errors && errors?.login?.message}</p>
 					<input
-						className='input'
+						className='input-auth'
 						type='text'
 						{...register('login', { required: 'Введите логин' })}
 						placeholder='логин'
@@ -22,7 +22,7 @@ const Auth = () => {
 					<p className='error-input'>{errors && errors?.password?.message}</p>
 					<input
 						type='password'
-						className='input'
+						className='input-auth'
 						{...register('password', {
 							required: 'Введите пароль',
 							minLength: { value: 4, message: 'Минимум 8 символов' },

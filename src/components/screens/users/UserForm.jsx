@@ -1,9 +1,10 @@
 import { useMutation, useQuery } from '@tanstack/react-query'
 import { useEffect, useState } from 'react'
 import { useForm } from 'react-hook-form'
+import { FaRegSave } from 'react-icons/fa'
 import userService from '../../../services/userService'
 import DeadLinePicker from './DeadLinePicker'
-
+import styles from './Users.module.scss'
 const UserForm = ({ user, onUpdate, onDelete, onRegister }) => {
 	const { register, handleSubmit, reset } = useForm()
 	const [deadline, setDeadline] = useState(new Date())
@@ -26,6 +27,9 @@ const UserForm = ({ user, onUpdate, onDelete, onRegister }) => {
 	const { mutate } = useMutation({
 		mutationKey: ['updateDate', id],
 		mutationFn: ({ id, deadline }) => userService.updateDeadline(id, deadline),
+		onSuccess: () => {
+			alert('Срок обновлен!')
+		},
 	})
 
 	useEffect(() => {
@@ -38,9 +42,19 @@ const UserForm = ({ user, onUpdate, onDelete, onRegister }) => {
 	}
 
 	return (
-		<div>
-			<form onSubmit={handleSubmit(onSubmit)}>
-				<div>{user ? user.login : <></>}</div>
+		<form
+			onSubmit={handleSubmit(onSubmit)}
+			className={user ? styles.form__user : styles.form__user_add}
+		>
+			{user ? (
+				<div>
+					Пользователь:{' '}
+					<span style={{ textDecoration: 'underline' }}>{user.login}</span>{' '}
+				</div>
+			) : (
+				<></>
+			)}
+			<div className={styles.form__input}>
 				<input
 					type='text'
 					className='input'
@@ -56,25 +70,31 @@ const UserForm = ({ user, onUpdate, onDelete, onRegister }) => {
 					})}
 				/>
 
-				{!user ? (
+				{!user && (
 					<DeadLinePicker deadline={deadline} handleChange={handleChange} />
-				) : (
-					<div>
-						<DeadLinePicker deadline={deadline} handleChange={handleChange} />
-						<button onClick={() => mutate({ id, deadline })}>
-							Изменить срок сдачи
-						</button>
-					</div>
 				)}
 
-				<button type='submit'>{user ? 'Редактировать' : '+'}</button>
+				<button type='submit' className='btn-success'>
+					{user ? 'Редактировать' : '+'}
+				</button>
 				{user && (
-					<button type='button' onClick={() => onDelete(user.id)}>
+					<button
+						type='button'
+						onClick={() => onDelete(user.id)}
+						className='btn-danger'
+					>
 						Удалить
 					</button>
 				)}
-			</form>
-		</div>
+			</div>
+
+			{user && (
+				<div className={styles.form__input}>
+					<DeadLinePicker deadline={deadline} handleChange={handleChange} />
+					<FaRegSave onClick={() => mutate({ id, deadline })} />
+				</div>
+			)}
+		</form>
 	)
 }
 export default UserForm

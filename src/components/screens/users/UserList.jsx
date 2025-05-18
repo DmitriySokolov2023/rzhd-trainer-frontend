@@ -2,6 +2,7 @@ import { useMutation, useQuery, useQueryClient } from '@tanstack/react-query'
 import authService from '../../../services/authService'
 import userService from '../../../services/userService'
 import UserForm from './UserForm'
+import styles from './Users.module.scss'
 
 const UserList = () => {
 	const queryClient = useQueryClient()
@@ -22,6 +23,7 @@ const UserList = () => {
 		mutationFn: ({ id, data }) => userService.updateUser(id, data),
 		onSuccess: () => {
 			queryClient.invalidateQueries(['getAllUser'])
+			alert('Данные обновлены!')
 		},
 	})
 
@@ -30,25 +32,29 @@ const UserList = () => {
 		mutationFn: id => userService.deleteUser(id),
 		onSuccess: () => {
 			queryClient.invalidateQueries(['getAllUser'])
+			alert('Пользователь удален')
 		},
 	})
 
 	return (
 		<div>
-			<div>
-				<h3>Создать нового</h3>
+			<div style={{ marginBottom: '20px' }}>
+				<h3 style={{ marginBottom: '10px' }}>Создать нового</h3>
 				<UserForm onRegister={register} />
 			</div>
-			<h3>Пользователи</h3>
-			{data &&
-				data.map(user => (
-					<UserForm
-						user={user}
-						onUpdate={updateUser}
-						onDelete={deleteUser}
-						key={user.id}
-					/>
-				))}
+			<h3 style={{ marginBottom: '10px' }}>Пользователи</h3>
+			{data && (
+				<div className={styles.form__list}>
+					{data.map(user => (
+						<UserForm
+							user={user}
+							onUpdate={updateUser}
+							onDelete={deleteUser}
+							key={user.id}
+						/>
+					))}
+				</div>
+			)}
 		</div>
 	)
 }
