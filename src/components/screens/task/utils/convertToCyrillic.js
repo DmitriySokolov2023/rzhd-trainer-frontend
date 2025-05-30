@@ -67,7 +67,7 @@ export const convertToLatin = char => {
 		newChar = char.toUpperCase()
 	} else if (CyrillicToLatinMap[char.toLowerCase()]) {
 		newChar = CyrillicToLatinMap[char.toLowerCase()].toUpperCase()
-	}
+	} else newChar = char.toUpperCase()
 	return newChar
 }
 

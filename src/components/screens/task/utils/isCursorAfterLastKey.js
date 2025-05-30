@@ -2,25 +2,31 @@ export function isCursorAfterLastKey(editor, keyClass) {
 	const selection = window.getSelection()
 	if (!selection || selection.rangeCount === 0) return false
 
-	let range = selection.getRangeAt(0)
-
+	const range = selection.getRangeAt(0)
 	const { startContainer, startOffset } = range
 
-	if (startContainer != editor) {
-		range.setStart(editor, editor.childNodes.length)
-	}
-
 	const childNodes = Array.from(editor.childNodes)
-
+	console.log(childNodes, childNodes.length)
 	if (childNodes.length < 2) return false
 
 	const lastNode = childNodes[childNodes.length - 2]
-
 	const isKeySpan =
 		lastNode.nodeType === 1 && lastNode.classList.contains(keyClass)
 
-	const isCursorAtEnd =
-		startContainer === editor && startOffset === editor.childNodes.length
+	const isCursorAtEnd = (() => {
+		if (startContainer === editor) {
+			return startOffset === editor.childNodes.length
+		}
+		if (startContainer.nodeType === Node.TEXT_NODE) {
+			const parent = startContainer.parentNode
+			return (
+				parent === editor.lastChild ||
+				parent === lastNode ||
+				editor.contains(parent)
+			)
+		}
+		return false
+	})()
 
 	return isKeySpan && isCursorAtEnd
 }

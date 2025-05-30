@@ -1,4 +1,3 @@
-// hooks/useCustomKeyboard.ts
 import { useQuery } from '@tanstack/react-query'
 import { useEffect } from 'react'
 import userService from '../../../../../services/userService'
@@ -10,6 +9,7 @@ import { getAnswerAsObject } from '../../utils/getAnswerAsObject'
 import { insertKeyToken } from '../../utils/insertKeyToken'
 import { insertTextAtCursor } from '../../utils/insertTextAtCursor'
 import { isCursorAfterLastKey } from '../../utils/isCursorAfterLastKey'
+
 export function useCustomKeyboard({
 	editorRef,
 	keyIndexRef,
@@ -37,7 +37,12 @@ export function useCustomKeyboard({
 				editor.focus()
 			}
 		}
+
 		const handleKeyDown = e => {
+			if (e.code.includes('Digit')) {
+				e.preventDefault()
+				return
+			}
 			if (e.key === 'Enter') {
 				e.preventDefault()
 				const userAnswer = getAnswerAsObject(editor)
@@ -46,9 +51,8 @@ export function useCustomKeyboard({
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
-			if (e.code.includes('Digit')) {
-				e.preventDefault()
-				return
+			if (e.key === 'Backspace') {
+				editor.innerHTML = ''
 			}
 			if (e.shiftKey) {
 				if (e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') {
@@ -56,6 +60,12 @@ export function useCustomKeyboard({
 					const span = document.createElement('span')
 					span.className = styles.spec
 					span.textContent = '['
+					insertTextAtCursor(span)
+				}
+				if (e.code === 'Equal') {
+					e.preventDefault()
+					const span = document.createElement('span')
+					span.textContent = '+'
 					insertTextAtCursor(span)
 				}
 				if (e.key.toLowerCase() === 'ъ' || e.key.toLowerCase() === '}') {
@@ -100,7 +110,6 @@ export function useCustomKeyboard({
 					const lastNode = editor.lastChild
 					const prevNode = lastNode.previousSibling
 
-					// Удаляем токен (span) и пробел (text node)
 					if (lastNode && prevNode) {
 						editor.removeChild(lastNode) // пробел
 						editor.removeChild(prevNode) // токен
@@ -120,9 +129,9 @@ export function useCustomKeyboard({
 
 				if (/^[a-zA-Z]$/.test(upperConvertChar)) {
 					const span = document.createElement('span')
-					span.className = styles.key
+					span.className = styles.spec
 					span.textContent = upperConvertChar
-					insertTextAtCursor(span) // Вставляем в конец
+					insertTextAtCursor(span)
 				} else {
 					insertTextAtCursor(upperConvertChar)
 				}

@@ -5,6 +5,7 @@ import { TOKEN } from '../app.constants'
 
 class AuthService {
 	async main(login, password, type) {
+		console.log(login, password)
 		try {
 			const { data } = await $axios.post(`/auth/${type}`, {
 				login,
