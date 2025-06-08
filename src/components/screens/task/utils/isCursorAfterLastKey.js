@@ -10,6 +10,7 @@ export function isCursorAfterLastKey(editor, keyClass) {
 	if (childNodes.length < 2) return false
 
 	const lastNode = childNodes[childNodes.length - 2]
+	console.log(lastNode)
 	const isKeySpan =
 		lastNode.nodeType === 1 && lastNode.classList.contains(keyClass)
 

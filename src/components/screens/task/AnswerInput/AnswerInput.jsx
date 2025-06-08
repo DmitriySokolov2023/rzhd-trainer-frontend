@@ -57,6 +57,7 @@ export default function AnswerInput({ id }) {
 					)}
 				</p>
 			</div>
+
 			{!getStatus && (
 				<>
 					<div

@@ -51,9 +51,7 @@ export function useCustomKeyboard({
 			if (e.key === 'CapsLock') {
 				setIsCapsLockActive(prev => !prev)
 			}
-			if (e.key === 'Backspace') {
-				editor.innerHTML = ''
-			}
+
 			if (e.shiftKey) {
 				if (e.key.toLowerCase() === 'х' || e.key.toLowerCase() === '{') {
 					e.preventDefault()
@@ -96,6 +94,59 @@ export function useCustomKeyboard({
 					span.textContent = '/'
 					insertTextAtCursor(span)
 				}
+			}
+			if (e.key === 'Backspace') {
+				e.preventDefault()
+
+				const editor = editorRef.current
+				const selection = window.getSelection()
+				if (!selection) return
+
+				// Клонируем HTML редактора во временный контейнер
+				const tempDiv = document.createElement('div')
+				tempDiv.innerHTML = editor.innerHTML
+
+				// Удаляем последний символ или ключ
+				function removeLastCharOrKey(container) {
+					let lastNode = container.lastChild
+
+					while (
+						lastNode &&
+						lastNode.nodeType === Node.TEXT_NODE &&
+						lastNode.textContent.trim() === ''
+					) {
+						container.removeChild(lastNode)
+						lastNode = container.lastChild
+					}
+
+					if (!lastNode) return
+
+					if (
+						lastNode.nodeType === Node.ELEMENT_NODE &&
+						lastNode.classList.contains(styles.key)
+					) {
+						container.removeChild(lastNode)
+					} else if (lastNode.nodeType === Node.TEXT_NODE) {
+						lastNode.textContent = lastNode.textContent.slice(0, -1)
+						if (lastNode.textContent.length === 0) {
+							container.removeChild(lastNode)
+						}
+					}
+				}
+
+				removeLastCharOrKey(tempDiv)
+
+				// Обновляем содержимое редактора
+				editor.innerHTML = tempDiv.innerHTML
+
+				// ⛔️ НЕ вставляем пробел — это ломает поведение
+				// ⏹ Вместо этого — ставим курсор в реальный конец содержимого
+				const range = document.createRange()
+				range.selectNodeContents(editor)
+				range.collapse(false)
+
+				selection.removeAllRanges()
+				selection.addRange(range)
 			}
 
 			if (e.altKey) {
